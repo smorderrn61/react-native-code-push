@@ -178,11 +178,13 @@ var AndroidEmulatorManager = (function () {
                     .then((Devices) => {
                         const listOfDevices = Devices.trim().split("\n");
                         if (listOfDevices == '') {
-                            testUtil_1.TestUtil.getProcessOutput(`sdkmanager "system-images;android-29;google_apis;x86"`, { noLogCommand: true, noLogStdOut: true, noLogStdErr: true });
-                            testUtil_1.TestUtil.getProcessOutput(`avdmanager create avd --force --name Nexus6P --abi google_apis/x86 --package 'system-images;android-29;google_apis;x86' --device "Nexus 6P"`, { noLogCommand: true, noLogStdOut: true, noLogStdErr: true })
+                            testUtil_1.TestUtil.getProcessOutput(`sdkmanager "system-images;android-29;google_apis;x86"`, { noLogCommand: true, noLogStdOut: true, noLogStdErr: true })
+                            .then(() => {
+                                testUtil_1.TestUtil.getProcessOutput(`avdmanager create avd --force --name Nexus6P --abi google_apis/x86 --package 'system-images;android-29;google_apis;x86' --device "Nexus 6P"`, { noLogCommand: true, noLogStdOut: true, noLogStdErr: true })
                                 .then(() => {
                                     deferred.resolve('Nexus6P');
                                 });
+                            })
                         } else {
                             deferred.resolve(listOfDevices[listOfDevices.length - 1]);
                         }
